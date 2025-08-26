@@ -4,11 +4,85 @@
     <meta charset="UTF-8">
     <title>Apex Settings</title>
     <link rel="stylesheet" href="example.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 6em; /* below navbar if present */
+            gap: 2em;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            color: inherit;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+            width: 300px;
+            background-color: rgba(0,0,0,0.4);
+            padding: 1em 1.5em;
+            border-radius: 1em;
+            border: 1px solid red;
+        }
+
+        section h2 {
+            margin: 0;
+            font-size: 1.5em;
+            color: inherit;
+        }
+
+        input, select, button {
+            padding: 0.5em;
+            font-size: 1em;
+            border-radius: 0.8em;
+            border: 1px solid red;
+            outline: none;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: red;
+            color: black;
+            font-weight: bold;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: darkred;
+            color: white;
+        }
+
+        #applyTabTitle {
+            margin-top: 0.5em;
+        }
+
+        /* Back button styling */
+        body > button {
+            margin-top: 2em;
+            padding: 0.7em 1.5em;
+            border-radius: 1em;
+            border: 1px solid red;
+            background-color: red;
+            color: black;
+            font-weight: bold;
+        }
+
+        body > button:hover {
+            background-color: darkred;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <h1>Settings</h1>
+    <h1>Apex Settings</h1>
 
-    <!-- Theme Selection -->
     <section>
         <h2>Theme</h2>
         <select id="themeSelect">
@@ -17,14 +91,12 @@
         </select>
     </section>
 
-    <!-- Tab Cloaking -->
     <section>
         <h2>Tab Cloaking</h2>
         <input type="text" id="tabTitle" placeholder="Enter tab title">
         <button id="applyTabTitle">Apply</button>
     </section>
 
-    <!-- Default Search Engine -->
     <section>
         <h2>Default Search Engine</h2>
         <select id="searchEngineSelect">
@@ -34,7 +106,6 @@
         </select>
     </section>
 
-    <!-- Back button -->
     <button onclick="location.href='/public/index.html'">Back to Apex</button>
 
     <script src="settings.js"></script>
