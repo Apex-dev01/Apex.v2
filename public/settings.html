@@ -9,17 +9,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 6em; /* below navbar if present */
+            padding-top: 6em;
             gap: 2em;
             min-height: 100vh;
             box-sizing: border-box;
         }
 
-        h1 {
-            font-size: 3em;
-            margin: 0;
-            color: inherit;
-        }
+        h1 { font-size: 3em; margin: 0; color: inherit; }
 
         section {
             display: flex;
@@ -32,11 +28,7 @@
             border: 1px solid red;
         }
 
-        section h2 {
-            margin: 0;
-            font-size: 1.5em;
-            color: inherit;
-        }
+        section h2 { margin: 0; font-size: 1.5em; color: inherit; }
 
         input, select, button {
             padding: 0.5em;
@@ -54,16 +46,10 @@
             transition: background 0.2s ease, color 0.2s ease;
         }
 
-        button:hover {
-            background-color: darkred;
-            color: white;
-        }
+        button:hover { background-color: darkred; color: white; }
 
-        #applyTabTitle {
-            margin-top: 0.5em;
-        }
+        #applyTabTitle { margin-top: 0.5em; }
 
-        /* Back button styling */
         body > button {
             margin-top: 2em;
             padding: 0.7em 1.5em;
@@ -74,10 +60,7 @@
             font-weight: bold;
         }
 
-        body > button:hover {
-            background-color: darkred;
-            color: white;
-        }
+        body > button:hover { background-color: darkred; color: white; }
     </style>
 </head>
 <body>
@@ -106,7 +89,7 @@
         </select>
     </section>
 
-    <button onclick="location.href='/public/index.html'">Back to Apex</button>
+    <button onclick="location.href='index.html'">Back to Apex</button>
 
     <script src="settings.js"></script>
 </body>
