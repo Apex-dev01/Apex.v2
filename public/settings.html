@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apex Settings</title>
+    <link rel="stylesheet" href="example.css">
+</head>
+<body>
+    <h1>Settings</h1>
+
+    <!-- Theme Selection -->
+    <section>
+        <h2>Theme</h2>
+        <select id="themeSelect">
+            <option value="space">Space (Black/Red)</option>
+            <option value="classic">Classic (Light)</option>
+        </select>
+    </section>
+
+    <!-- Tab Cloaking -->
+    <section>
+        <h2>Tab Cloaking</h2>
+        <input type="text" id="tabTitle" placeholder="Enter tab title">
+        <button id="applyTabTitle">Apply</button>
+    </section>
+
+    <!-- Default Search Engine -->
+    <section>
+        <h2>Default Search Engine</h2>
+        <select id="searchEngineSelect">
+            <option value="google">Google</option>
+            <option value="bing">Bing</option>
+            <option value="duckduckgo">DuckDuckGo</option>
+        </select>
+    </section>
+
+    <!-- Back button -->
+    <button onclick="location.href='/public/index.html'">Back to Apex</button>
+
+    <script src="settings.js"></script>
+</body>
+</html>
