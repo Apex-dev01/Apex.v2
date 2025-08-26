@@ -1,4 +1,5 @@
-document // makes it so you can press enter to submit as opposed to just being able to press a button
+// Makes it so you can press enter to submit as opposed to just being able to press a button
+document
     .getElementById("urlInput")
     .addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -10,13 +11,22 @@ document // makes it so you can press enter to submit as opposed to just being a
 document.getElementById("searchButton").onclick = function (event) {
     event.preventDefault();
 
-    let url = document.getElementById("urlInput").value; // if no periods are detected in the input, search google instead
-    let searchUrl = "https://www.google.com/search?q=";
+    let url = document.getElementById("urlInput").value;
 
+    // Read default search engine from localStorage
+    let defaultSearchEngine = localStorage.getItem("apexSearchEngine") || "google";
+    let searchUrls = {
+        google: "https://www.google.com/search?q=",
+        bing: "https://www.bing.com/search?q=",
+        duckduckgo: "https://duckduckgo.com/?q="
+    };
+    let searchUrl = searchUrls[defaultSearchEngine];
+
+    // If no periods are detected in the input, search the selected engine instead
     if (!url.includes(".")) {
         url = searchUrl + encodeURIComponent(url);
     } else {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) { // if no http or https is detected, add https automatically
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "https://" + url;
         }
     }
