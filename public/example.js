@@ -1,3 +1,5 @@
+// Apply saved theme immediately
+document.body.className = localStorage.getItem("apexTheme") || "space";
 // Makes it so you can press enter to submit as opposed to just being able to press a button
 document
     .getElementById("urlInput")
