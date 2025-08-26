@@ -1,45 +1,9 @@
-/* Body and stars */
+/* Base styles for all pages */
 body {
     margin: 0;
     padding: 0;
-    background: #000;
-    color: white;
     font-family: Arial, sans-serif;
-    overflow: hidden;
-    position: relative;
-}
-
-/* Create star layers */
-body::before,
-body::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 200%;
-    background: transparent;
-    box-shadow:
-        /* Random stars */
-        50px 100px #fff, 200px 300px #fff, 400px 150px #fff, 600px 500px #fff,
-        700px 200px #fff, 900px 100px #fff, 1100px 400px #fff, 1300px 50px #fff,
-        1500px 300px #fff, 1700px 200px #fff, 1900px 450px #fff;
-    animation: moveStars 60s linear infinite;
-    z-index: 0;
-}
-
-body::after {
-    box-shadow:
-        100px 200px #fff, 300px 400px #fff, 500px 250px #fff, 700px 600px #fff,
-        800px 300px #fff, 1000px 200px #fff, 1200px 500px #fff, 1400px 100px #fff,
-        1600px 400px #fff, 1800px 300px #fff, 2000px 550px #fff;
-    animation: moveStars 120s linear infinite;
-}
-
-/* Star movement */
-@keyframes moveStars {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(-1000px, -500px); }
+    transition: background 0.5s ease, color 0.5s ease;
 }
 
 /* Navbar */
@@ -47,22 +11,22 @@ body::after {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: rgba(17, 17, 17, 0.8);
     padding: 1em;
     width: 100%;
     position: fixed;
     top: 0;
     z-index: 10;
-    border-bottom: 2px solid red;
+    border-bottom: 2px solid;
+    transition: background 0.5s ease, border-color 0.5s ease;
 }
 
 .nav-logo {
     background: none;
     border: none;
-    color: red;
     font-size: 1.5em;
     font-weight: bold;
     cursor: pointer;
+    transition: color 0.5s ease;
 }
 
 .nav-links {
@@ -75,60 +39,148 @@ body::after {
 
 .nav-links a {
     text-decoration: none;
-    color: white;
     font-weight: bold;
-    transition: color 0.2s ease-in-out;
+    transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
-    color: red;
-}
-
-/* Search bar + button centered */
+/* Search bar + button */
 #urlInput,
 #searchButton {
     height: 3em;
     font-size: 1.2em;
     border-radius: 1.5em;
-    position: absolute;
-    top: 25vh;
-    z-index: 5;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-#urlInput {
-    left: 50%;
-    transform: translateX(-55%);
-    width: 50vw;
+/* Iframe */
+.iframeWindow {
+    position: absolute;
+    width: 100vw;
+    border: 0;
+    transition: background 0.5s ease;
+}
+
+/* --- Themes --- */
+
+/* Space Theme (default) */
+body.space {
+    background: radial-gradient(circle at top, #0d0d0d, #000 80%);
+    color: white;
+}
+
+body.space .navbar {
+    background-color: rgba(17, 17, 17, 0.8);
+    border-bottom-color: red;
+}
+
+body.space .nav-logo {
+    color: red;
+}
+
+body.space .nav-links a {
+    color: white;
+}
+
+body.space .nav-links a:hover {
+    color: red;
+}
+
+body.space #urlInput {
     border: 2px solid red;
     background-color: #1a1a1d;
     color: white;
-    padding-left: 1em;
-    outline: none;
 }
 
-#searchButton {
-    left: 50%;
-    transform: translateX(55%);
-    width: 8em;
+body.space #searchButton {
     border: 2px solid red;
     background-color: red;
     color: black;
-    cursor: pointer;
-    transition: background 0.2s ease-in-out;
 }
 
-#searchButton:hover {
+body.space #searchButton:hover {
     background-color: darkred;
     color: white;
 }
 
-/* Iframe full space except navbar + search */
-.iframeWindow {
-    position: absolute;
+body.space .iframeWindow {
     top: 10em;
-    width: 100vw;
     height: calc(100vh - 10em);
-    border: 0;
     background-color: #000;
-    z-index: 1;
+}
+
+/* Classic Theme */
+body.classic {
+    background-color: #fff;
+    color: #000;
+}
+
+body.classic .navbar {
+    background-color: #eee;
+    border-bottom-color: #000;
+}
+
+body.classic .nav-logo {
+    color: #000;
+}
+
+body.classic .nav-links a {
+    color: #000;
+}
+
+body.classic .nav-links a:hover {
+    color: red;
+}
+
+body.classic #urlInput {
+    border: 2px solid #000;
+    background-color: #f2f2f2;
+    color: #000;
+}
+
+body.classic #searchButton {
+    border: 2px solid #000;
+    background-color: #000;
+    color: #fff;
+}
+
+body.classic #searchButton:hover {
+    background-color: red;
+    color: #fff;
+}
+
+body.classic .iframeWindow {
+    top: 10em;
+    height: calc(100vh - 10em);
+    background-color: #fff;
+}
+
+/* Optional: stars for space theme */
+body.space::before,
+body.space::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: transparent;
+    box-shadow:
+        50px 100px #fff, 200px 300px #fff, 400px 150px #fff, 600px 500px #fff,
+        700px 200px #fff, 900px 100px #fff, 1100px 400px #fff, 1300px 50px #fff,
+        1500px 300px #fff, 1700px 200px #fff, 1900px 450px #fff;
+    animation: moveStars 60s linear infinite;
+    z-index: 0;
+}
+
+body.space::after {
+    box-shadow:
+        100px 200px #fff, 300px 400px #fff, 500px 250px #fff, 700px 600px #fff,
+        800px 300px #fff, 1000px 200px #fff, 1200px 500px #fff, 1400px 100px #fff,
+        1600px 400px #fff, 1800px 300px #fff, 2000px 550px #fff;
+    animation: moveStars 120s linear infinite;
+}
+
+@keyframes moveStars {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-1000px, -500px); }
 }
