@@ -1,37 +1,43 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <script src="/uv/uv.bundle.js"></script>
-        <script src="/uv/uv.config.js"></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apex</title>
+    <script src="/uv/uv.bundle.js"></script>
+    <script src="/uv/uv.config.js"></script>
 
-        <script>
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", () => {
-                navigator.serviceWorker.register("/uv/sw.js", {
-                    scope: __uv$config.prefix,
-                });
+    <script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("/uv/sw.js", {
+                scope: __uv$config.prefix,
             });
-        }
-        </script>
+        });
+    }
+    </script>
 
-        <link rel="stylesheet" href="example.css">
-    </head>
-    <body>
-        <!-- Navbar -->
-        <nav class="navbar">
-            <button class="nav-logo" onclick="location.href='/index.html'">Apex</button>
-            <ul class="nav-links">
-                <li><a href="/settings.html">Settings</a></li>
-                <li><a href="/apps.html">Apps</a></li>
-                <li><a href="/games.html">Games</a></li>
-            </ul>
-        </nav>
+    <link rel="stylesheet" href="example.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <button class="nav-logo" onclick="location.href='index.html'">Apex</button>
+        <ul class="nav-links">
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="apps.html">Apps</a></li>
+            <li><a href="games.html">Games</a></li>
+        </ul>
+    </nav>
 
-        <!-- Existing UI -->
+    <!-- Centered Search Bar -->
+    <div class="search-container">
         <input type="text" id="urlInput" placeholder="Enter URL here">
-        <button id="searchButton">Search Text</button>
+        <button id="searchButton">Go</button>
+    </div>
 
-        <iframe id="iframeWindow" class="iframeWindow"></iframe>
-    </body>
+    <!-- Iframe for browsing -->
+    <iframe id="iframeWindow" class="iframeWindow"></iframe>
+
     <script src="example.js"></script>
+</body>
 </html>
