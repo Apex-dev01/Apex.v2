@@ -13,6 +13,7 @@
             gap: 2em;
             min-height: 100vh;
             box-sizing: border-box;
+            position: relative; /* for star layers */
         }
 
         h1 { font-size: 3em; margin: 0; color: inherit; }
@@ -26,6 +27,7 @@
             padding: 1em 1.5em;
             border-radius: 1em;
             border: 1px solid red;
+            z-index: 1; /* ensure above stars */
         }
 
         section h2 { margin: 0; font-size: 1.5em; color: inherit; }
@@ -58,9 +60,41 @@
             background-color: red;
             color: black;
             font-weight: bold;
+            z-index: 1;
         }
 
         body > button:hover { background-color: darkred; color: white; }
+
+        /* Space theme stars */
+        body.space::before,
+        body.space::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: transparent;
+            box-shadow:
+                50px 100px #fff, 200px 300px #fff, 400px 150px #fff, 600px 500px #fff,
+                700px 200px #fff, 900px 100px #fff, 1100px 400px #fff, 1300px 50px #fff,
+                1500px 300px #fff, 1700px 200px #fff, 1900px 450px #fff;
+            animation: moveStars 60s linear infinite;
+            z-index: 0;
+        }
+
+        body.space::after {
+            box-shadow:
+                100px 200px #fff, 300px 400px #fff, 500px 250px #fff, 700px 600px #fff,
+                800px 300px #fff, 1000px 200px #fff, 1200px 500px #fff, 1400px 100px #fff,
+                1600px 400px #fff, 1800px 300px #fff, 2000px 550px #fff;
+            animation: moveStars 120s linear infinite;
+        }
+
+        @keyframes moveStars {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-1000px, -500px); }
+        }
     </style>
 </head>
 <body>
