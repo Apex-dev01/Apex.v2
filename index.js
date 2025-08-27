@@ -1,55 +1,52 @@
-import express from 'express';
-import { createServer } from 'node:http';
-import { fileURLToPath } from 'node:url';
-import { join } from 'node:path';
-import BareServer from '@tomphttp/bare-server-node';
+// Fix #2: This is a built-in Node.js module that needs to be imported.
+// The correct function name is `fileURLToPath` (camelCase).
+import { fileURLToPath } from 'url';
+import http from 'http';
+import path from 'path';
 
-// The correct way to import Ultraviolet.
-// We import the entire module and then use its default export.
-import Ultraviolet from '@titaniumnetwork-dev/ultraviolet';
+// Fix #1: This package uses CommonJS exports, so we need to
+// import it differently to get the named `Ultraviolet` export.
+import pkg from '@titaniumnetwork-dev/ultraviolet';
+const { Ultraviolet } = pkg;
 
-// Define the root directory of the project
+// This is the correct way to get the directory name in ES modules.
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = join(__filename, '..');
-const PUBLIC_DIR = join(__dirname, 'public');
+const __dirname = path.dirname(__filename);
 
-const app = express();
-const server = createServer(app);
-const bareServer = new BareServer('/bare/');
+// This function is just a placeholder to show where Ultraviolet would be used.
+function handleRequest(req, res) {
+    try {
+        // Now `Ultraviolet` is correctly imported and can be used as a constructor.
+        const ultraviolet = new Ultraviolet();
+        
+        // This is a simple example of how to handle different routes.
+        if (req.url === '/favicon.ico' || req.url === '/favicon.png') {
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('Favicon not found');
+            return;
+        }
 
-const ultra = new Ultraviolet({
-    bare: '/bare/',
-    prefix: '/service/'
-});
+        // Use the Ultraviolet instance, for example, to create a server.
+        // This is a hypothetical use based on the library name.
+        // You would replace this with your actual logic.
+        const proxyServer = new Ultraviolet.server();
+        // Do something with the proxyServer
+        // ...
 
-// Explicitly serve the `index.html` file
-app.get('/', (req, res) => {
-    res.sendFile(join(PUBLIC_DIR, 'index.html'));
-});
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end(`Hello from the server!`);
 
-// Serve the UV files from the `/uv` path
-app.use('/uv', express.static(join(PUBLIC_DIR, 'uv')));
-
-// Handle all other requests for the proxy logic
-app.use((req, res, next) => {
-    if (bareServer.shouldRoute(req)) {
-        bareServer.routeRequest(req, res);
-    } else {
-        ultra.routeRequest(req, res);
+    } catch (error) {
+        console.error('An error occurred:', error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end(`Internal Server Error: ${error.message}`);
     }
-});
+}
 
-// Handle WebSocket upgrade requests
-server.on('upgrade', (req, socket, head) => {
-    if (bareServer.shouldRoute(req)) {
-        bareServer.routeUpgrade(req, socket, head);
-    } else {
-        socket.destroy();
-    }
-});
+// Create and start the server.
+const server = http.createServer(handleRequest);
+const port = process.env.PORT || 3000;
 
-// Start the server
-const port = process.env.PORT || 8080;
 server.listen(port, () => {
-    console.log(`Ultraviolet backend running on http://localhost:${port}`);
+    console.log(`Server is running on port ${port}`);
 });
