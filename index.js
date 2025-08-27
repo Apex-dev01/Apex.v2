@@ -1,14 +1,15 @@
 import express from 'express';
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
-// Correct way to import a CommonJS module in an ES Module environment
-import pkg from '@titaniumnetwork-dev/ultraviolet';
-const { Ultraviolet } = pkg;
 import { join } from 'node:path';
 import BareServer from '@tomphttp/bare-server-node';
 
+// The correct way to import Ultraviolet.
+// We import the entire module and then use its default export.
+import Ultraviolet from '@titaniumnetwork-dev/ultraviolet';
+
 // Define the root directory of the project
-const __filename = fileURLToPath(import.meta.url);
+const __filename = fileURL_to_path(import.meta.url);
 const __dirname = join(__filename, '..');
 const PUBLIC_DIR = join(__dirname, 'public');
 
