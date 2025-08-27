@@ -5,7 +5,7 @@ import { Ultraviolet } from '@titaniumnetwork-dev/ultraviolet';
 import { join } from 'node:path';
 import BareServer from '@tomphttp/bare-server-node';
 
-// Constants for file paths
+// Define the root directory of the project
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = join(__filename, '..');
 const PUBLIC_DIR = join(__dirname, 'public');
@@ -19,21 +19,24 @@ const ultra = new Ultraviolet({
     prefix: '/service/'
 });
 
-// Serve static files from the public directory
-app.use(express.static(PUBLIC_DIR));
+// Explicitly serve the `index.html` file
+app.get('/', (req, res) => {
+    res.sendFile(join(PUBLIC_DIR, 'index.html'));
+});
 
-// Handle all requests, including service worker and bare server
+// Serve the UV files from the `/uv` path
+app.use('/uv', express.static(join(PUBLIC_DIR, 'uv')));
+
+// Handle all other requests for the proxy logic
 app.use((req, res, next) => {
-    // Check if the request should be handled by the bare server
     if (bareServer.shouldRoute(req)) {
         bareServer.routeRequest(req, res);
     } else {
-        // Otherwise, route the request through Ultraviolet
         ultra.routeRequest(req, res);
     }
 });
 
-// Handle upgrade requests (WebSockets)
+// Handle WebSocket upgrade requests
 server.on('upgrade', (req, socket, head) => {
     if (bareServer.shouldRoute(req)) {
         bareServer.routeUpgrade(req, socket, head);
@@ -42,9 +45,8 @@ server.on('upgrade', (req, socket, head) => {
     }
 });
 
-// Define the port for the server to listen on
+// Start the server
 const port = process.env.PORT || 8080;
 server.listen(port, () => {
     console.log(`Ultraviolet backend running on http://localhost:${port}`);
 });
-
