@@ -9,7 +9,7 @@ import BareServer from '@tomphttp/bare-server-node';
 import Ultraviolet from '@titaniumnetwork-dev/ultraviolet';
 
 // Define the root directory of the project
-const __filename = fileURL_to_path(import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = join(__filename, '..');
 const PUBLIC_DIR = join(__dirname, 'public');
 
