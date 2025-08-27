@@ -1,16 +1,15 @@
-// Fix #2: This is a built-in Node.js module that needs to be imported.
-// The correct function name is `fileURLToPath` (camelCase).
-import { fileURLToPath } from 'url';
-import http from 'http';
-import path from 'path';
+// This is the correct way to import modules when using CommonJS syntax.
+// We'll revert to this since the ES module imports are not working as expected.
+const http = require('http');
+const Ultraviolet = require('@titaniumnetwork-dev/ultraviolet');
 
-// FIX: This package exports the Ultraviolet constructor as the default export.
-// We import it directly without destructuring.
-import Ultraviolet from '@titaniumnetwork-dev/ultraviolet';
-
-// This is the correct way to get the directory name in ES modules.
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// To get __dirname and __filename in an ES Module, you would use this pattern.
+// However, since we're using `require` (CommonJS), these variables are
+// available by default, so we don't need these lines.
+// import { fileURLToPath } from 'url';
+// import path from 'path';
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 // This function is a placeholder to show where Ultraviolet would be used.
 function handleRequest(req, res) {
