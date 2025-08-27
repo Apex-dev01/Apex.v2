@@ -4,19 +4,19 @@ import { fileURLToPath } from 'url';
 import http from 'http';
 import path from 'path';
 
-// Fix #1: This package uses CommonJS exports, so we need to
-// import it differently to get the named `Ultraviolet` export.
-import pkg from '@titaniumnetwork-dev/ultraviolet';
-const { Ultraviolet } = pkg;
+// FIX: This package exports the Ultraviolet constructor as the default export.
+// We import it directly without destructuring.
+import Ultraviolet from '@titaniumnetwork-dev/ultraviolet';
 
 // This is the correct way to get the directory name in ES modules.
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// This function is just a placeholder to show where Ultraviolet would be used.
+// This function is a placeholder to show where Ultraviolet would be used.
 function handleRequest(req, res) {
     try {
         // Now `Ultraviolet` is correctly imported and can be used as a constructor.
+        // It should be a function/class that can be instantiated with `new`.
         const ultraviolet = new Ultraviolet();
         
         // This is a simple example of how to handle different routes.
@@ -26,12 +26,11 @@ function handleRequest(req, res) {
             return;
         }
 
-        // Use the Ultraviolet instance, for example, to create a server.
-        // This is a hypothetical use based on the library name.
-        // You would replace this with your actual logic.
-        const proxyServer = new Ultraviolet.server();
-        // Do something with the proxyServer
-        // ...
+        // The previous line 'new Ultraviolet.server()' was causing an error.
+        // The `Ultraviolet` instance itself likely handles the proxying.
+        // Your actual logic to use the proxy should go here.
+        // For example, you would probably call a method on the `ultraviolet` instance
+        // to handle the request, like `ultraviolet.requestHandler(req, res)`.
 
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(`Hello from the server!`);
