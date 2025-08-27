@@ -1,7 +1,9 @@
 import express from 'express';
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
-import { Ultraviolet } from '@titaniumnetwork-dev/ultraviolet';
+// Correct way to import a CommonJS module in an ES Module environment
+import pkg from '@titaniumnetwork-dev/ultraviolet';
+const { Ultraviolet } = pkg;
 import { join } from 'node:path';
 import BareServer from '@tomphttp/bare-server-node';
 
