@@ -1,22 +1,19 @@
-// This is the correct way to import modules when using CommonJS syntax.
-// We'll revert to this since the ES module imports are not working as expected.
-const http = require('http');
-const Ultraviolet = require('@titaniumnetwork-dev/ultraviolet');
+// This is the correct ES module import syntax for an ES module environment.
+// It imports the entire module as a single object.
+import * as Ultraviolet from '@titaniumnetwork-dev/ultraviolet';
+import http from 'http';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// To get __dirname and __filename in an ES Module, you would use this pattern.
-// However, since we're using `require` (CommonJS), these variables are
-// available by default, so we don't need these lines.
-// import { fileURLToPath } from 'url';
-// import path from 'path';
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+// This is the correct way to get the directory name in ES modules.
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // This function is a placeholder to show where Ultraviolet would be used.
 function handleRequest(req, res) {
     try {
-        // Now `Ultraviolet` is correctly imported and can be used as a constructor.
-        // It should be a function/class that can be instantiated with `new`.
-        const ultraviolet = new Ultraviolet();
+        // We now access the `Ultraviolet` constructor as a property of the imported object.
+        const ultraviolet = new Ultraviolet.Ultraviolet();
         
         // This is a simple example of how to handle different routes.
         if (req.url === '/favicon.ico' || req.url === '/favicon.png') {
@@ -25,8 +22,6 @@ function handleRequest(req, res) {
             return;
         }
 
-        // The previous line 'new Ultraviolet.server()' was causing an error.
-        // The `Ultraviolet` instance itself likely handles the proxying.
         // Your actual logic to use the proxy should go here.
         // For example, you would probably call a method on the `ultraviolet` instance
         // to handle the request, like `ultraviolet.requestHandler(req, res)`.
