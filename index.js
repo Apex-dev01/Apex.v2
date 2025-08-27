@@ -1,73 +1,53 @@
 import express from 'express';
-import http from 'node:http';
-import { createBareServer } from '@tomphttp/bare-server-node';
-import cors from 'cors';
-import path from "path";
-import { hostname } from "node:os"
+import { createServer } from 'node:http';
+import { fileURLToPath } from 'node:url';
+import { Ultraviolet } from '@titaniumnetwork-dev/ultraviolet';
+import { join } from 'node:path';
+import BareServer from '@tomphttp/bare-server-node';
 
-const server = http.createServer();
-const app = express(server);
-const __dirname = process.cwd();
-const bareServer = createBareServer('/b/');
+// These lines are standard Node.js to get the correct file path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = join(__filename, '..');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
-app.use(cors());
+// Initialize Express, the HTTP server, and the Bare server
+const app = express();
+const server = createServer(app);
+const bareServer = new BareServer('/bare/');
 
+// Initialize Ultraviolet with a prefix for proxied URLs and the bare server path
+const ultra = new Ultraviolet({
+    bare: '/bare/',
+    prefix: '/service/'
+});
+
+// Serve static files from the 'public' directory
+app.use(express.static(join(__dirname, 'public')));
+
+// Handle the main '/' route, serving the index.html file
+app.get('/', (req, res) => {
+    res.sendFile(join(__dirname, 'public', 'index.html'));
+});
+
+// Route HTTP requests to either the Bare server or the Ultraviolet instance
 server.on('request', (req, res) => {
     if (bareServer.shouldRoute(req)) {
-        bareServer.routeRequest(req, res)
+        bareServer.routeRequest(req, res);
     } else {
-        app(req, res)
+        ultra.routeRequest(req, res);
     }
-})
+});
 
+// Handle WebSocket upgrade requests
 server.on('upgrade', (req, socket, head) => {
     if (bareServer.shouldRoute(req)) {
-        bareServer.routeUpgrade(req, socket, head)
-    } else {
-        socket.end()
+        bareServer.routeUpgrade(req, socket, head);
     }
-})
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(process.cwd(), '/public/index.html'));
 });
 
-app.get('/index', (req, res) => {
-    res.sendFile(path.join(process.cwd(), '/public/index.html'));
+// Listen on the port provided by Vercel or default to 8080
+const port = process.env.PORT || 8080;
+server.listen(port, () => {
+    console.log(`Ultraviolet backend running on http://localhost:${port}`);
 });
 
-/* add your own extra urls like this:
 
-app.get('/pathOnYourSite', (req, res) => {
-    res.sendFile(path.join(process.cwd(), '/linkToItInYourSource'));
-});
-
-*/
-
-const PORT = 3000;
-server.on('listening', () => {
-    const address = server.address();
-
-    console.log("Listening on:");
-    console.log(`\thttp://localhost:${address.port}`);
-    console.log(`\thttp://${hostname()}:${address.port}`);
-    console.log(
-        `\thttp://${address.family === "IPv6" ? `[${address.address}]` : address.address
-        }:${address.port}`
-    );
-})
-
-server.listen({ port: PORT, })
-
-process.on("SIGINT", shutdown);
-process.on("SIGTERM", shutdown);
-
-function shutdown() {
-    console.log("SIGTERM signal received: closing HTTP server");
-    server.close();
-    bareServer.close();
-    process.exit(0);
-}
